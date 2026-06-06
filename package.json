@@ -1,0 +1,21 @@
+{
+  "name": "sample-theme",
+  "version": "0.1.0",
+  "description": "revenexx sample Blokkli theme — minimal Nuxt SSR storefront, deployed as an Appwrite Site (ADR-0061).",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "node .output/server/index.mjs",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "^4.2.2",
+    "vue": "^3.5.13"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://schemas.revenexx.com/billing.schema.json",
+  "type": "free",
+  "support": {
+    "email": "support@revenexx.com",
+    "url": "https://revenexx.com/support"
+  },
+  "categories": ["theme", "storefront", "sample"],
+  "available_countries": ["*"]
+}

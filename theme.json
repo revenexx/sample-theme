@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schemas.revenexx.com/theme.schema.json",
+  "kind": "theme",
+  "engine": "blokkli",
+  "name": "storefront",
+  "vendor": "revenexx",
+  "version": "1.0.0",
+  "title": "Storefront",
+  "description": "An example Blokkli theme: a Nuxt storefront that renders a tenant's products and CMS pages. Demonstrates the kind/engine marker, domain-based frontend routing, the `requires` install gate, and the shared permissions register (ADR-0061).",
+  "icon": "icon.svg",
+  "type": "public",
+
+  "site": {
+    "framework": "nuxt",
+    "adapter": "ssr",
+    "installCommand": "npm install",
+    "buildCommand": "npm run build",
+    "outputDirectory": ".output",
+    "domains": ["{{tenant_domain}}"]
+  },
+
+  "requires": [
+    {
+      "capability": "products.list",
+      "compatible": "^1.0",
+      "reason": "renders the product grid on the storefront home and category pages"
+    }
+  ],
+
+  "permissions": [
+    { "capability": "products.list", "compatible": "^1.0" },
+    { "entity": "pages", "access": ["read"] },
+    { "storage": "theme-media", "access": ["read"] }
+  ],
+
+  "blokkli": {
+    "blocks": [
+      {
+        "id": "hero",
+        "title": "Hero",
+        "description": "Full-width hero banner with headline, subline, and a call-to-action."
+      },
+      {
+        "id": "product-grid",
+        "title": "Product Grid",
+        "description": "Renders products from the products.list capability. Options: columns, category filter, sort.",
+        "requiresCapability": "products.list"
+      },
+      {
+        "id": "rich-text",
+        "title": "Rich Text",
+        "description": "A WYSIWYG text block for editorial content."
+      }
+    ],
+    "presets": [
+      {
+        "id": "home",
+        "title": "Home page",
+        "blocks": ["hero", "product-grid", "rich-text"]
+      }
+    ]
+  }
+}
