@@ -5,28 +5,29 @@
 # platform; we upload a source tarball and let the Sites build worker run
 # `npm install` + `npm run build` (Nuxt SSR → .output).
 #
+# This fork resolves the project from `?project=` or the X-Revenexx-Tenant
+# header (app/init/resources.php: getParam('project', getHeader('x-revenexx-tenant'))).
+# There is NO X-Revenexx-Project header — the tenant value IS the project id.
+#
 # Required env:
 #   ENDPOINT   platform API base, e.g. https://app.revenexx.com/v1
-#   PROJECT    Appwrite project id (X-Revenexx-Project)
+#   TENANT     X-Revenexx-Tenant — resolves the project (e.g. "revenexx")
 #   API_KEY    API key with sites.write + deployments.write (X-Revenexx-Key)
 # Optional env:
-#   TENANT     X-Revenexx-Tenant header (revenexx deploy keys require this)
 #   SITE_ID    reuse an existing site id (default: create a new one)
 #   SITE_NAME  display name (default: "Sample Storefront Theme")
 #
-# Usage:  ENDPOINT=... PROJECT=... API_KEY=... [TENANT=revenexx] ./deploy.sh
+# Usage:  ENDPOINT=... TENANT=revenexx API_KEY=... ./deploy.sh
 set -euo pipefail
 
 : "${ENDPOINT:?set ENDPOINT, e.g. https://app.revenexx.com/v1}"
-: "${PROJECT:?set PROJECT (Appwrite project id)}"
+: "${TENANT:?set TENANT (X-Revenexx-Tenant, resolves the project, e.g. revenexx)}"
 : "${API_KEY:?set API_KEY (sites.write key)}"
-TENANT="${TENANT:-}"
 SITE_ID="${SITE_ID:-}"
 SITE_NAME="${SITE_NAME:-Sample Storefront Theme}"
 
 here="$(cd "$(dirname "$0")" && pwd)"
-hdr=(-H "X-Revenexx-Project: ${PROJECT}" -H "X-Revenexx-Key: ${API_KEY}")
-[ -n "$TENANT" ] && hdr+=(-H "X-Revenexx-Tenant: ${TENANT}")
+hdr=(-H "X-Revenexx-Tenant: ${TENANT}" -H "X-Revenexx-Key: ${API_KEY}")
 
 say() { printf '\n\033[1;35m== %s\033[0m\n' "$*"; }
 
