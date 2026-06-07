@@ -1,17 +1,25 @@
 <script setup lang="ts">
-// SSR proof for the sample Blokkli theme (ADR-0061).
+// SSR proof for the sample Blokkli theme (ADR-0061 / ADR-0062).
 //
 // The platform injects per-invocation context as request headers (ADR-0057):
 //   - the tenant is resolved from the request Host on the public Sites
 //     entrypoint (§8) — this frontend is served by DOMAIN, never the gateway;
 //   - x-revenexx-context carries the brokered per-tenant JWT that the Blokkli
 //     adapter / SDK would present to the API gateway for data + capability calls.
-// Here we just render them server-side to prove the theme is reachable and the
-// context arrives.
+//
+// IMPORTANT: useRequestHeaders() is SERVER-ONLY — on the client (hydration) it
+// returns {}. Reading it straight into render state caused a hydration mismatch:
+// the server rendered the real values, then the client re-ran setup with empty
+// headers and re-rendered the fallbacks ("unknown" / "(resolved by host)"), so
+// the correct values flashed and vanished. We instead capture the values once
+// on the server via useState; Nuxt serialises that into the payload and the
+// client hydrates the SAME values — identical markup, no mismatch.
 const headers = useRequestHeaders(['host', 'x-revenexx-tenant', 'x-revenexx-context'])
-const host = headers['host'] || 'unknown'
-const tenant = headers['x-revenexx-tenant'] || '(resolved by host)'
-const hasContext = Boolean(headers['x-revenexx-context'])
+const ctx = useState('revenexx-context', () => ({
+  host: headers.host || 'unknown',
+  tenant: headers['x-revenexx-tenant'] || '(resolved by host)',
+  hasContext: Boolean(headers['x-revenexx-context']),
+}))
 </script>
 
 <template>
@@ -23,11 +31,11 @@ const hasContext = Boolean(headers['x-revenexx-context'])
 
       <dl class="ctx">
         <dt>Host</dt>
-        <dd>{{ host }}</dd>
+        <dd>{{ ctx.host }}</dd>
         <dt>Tenant</dt>
-        <dd>{{ tenant }}</dd>
+        <dd>{{ ctx.tenant }}</dd>
         <dt>Brokered context</dt>
-        <dd>{{ hasContext ? 'present' : 'none (preview domain)' }}</dd>
+        <dd>{{ ctx.hasContext ? 'present' : 'none (preview domain)' }}</dd>
       </dl>
 
       <p class="foot">
