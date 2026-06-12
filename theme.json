@@ -4,7 +4,7 @@
   "engine": "blokkli",
   "name": "sample-theme",
   "vendor": "revenexx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "title": "Sample Storefront",
   "description": "An example Blokkli theme: a Nuxt storefront that renders a tenant's products and CMS pages. Demonstrates the kind/engine marker, domain-based frontend routing, the `requires` install gate, and the shared permissions register (ADR-0061).",
   "icon": "icon.svg",
