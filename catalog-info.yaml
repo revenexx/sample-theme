@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "sample-theme"
+  description: "Reference Blokkli theme: a minimal Nuxt SSR storefront with its registry manifests theme.json and billing.json (ADR-0061), the example the developer docs build a first theme from."
+  annotations:
+    github.com/project-slug: revenexx/sample-theme
+spec:
+  type: website
+  owner: group:default/frontend-engineering
+  system: revenue-cloud
+  lifecycle: production
