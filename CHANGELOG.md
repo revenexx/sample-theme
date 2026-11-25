@@ -2,6 +2,14 @@
 
 What each version of this theme changed. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); `theme.json#version` is strict semver, one bump per pull request. Versions before 1.0.3 are recorded only in the git history.
 
+## [1.0.4] — unreleased
+
+The Marketplace listing moves onto the fixed set of categories ([PE-1537](https://linear.app/revenexx/issue/PE-1537)).
+
+### Changed
+
+- `billing.json#categories` is `storefront` instead of `theme`, `storefront`, `sample`. The public Marketplace on revenexx.com filters by these eleven areas.
+
 ## [1.0.3] — unreleased
 
 Completes the Marketplace listing the release gate checks ([MAR-19](https://linear.app/revenexx/issue/MAR-19)).
